@@ -16,11 +16,24 @@ public class Line {
 	if (n < names.length)
 	    return names[n - 1];
 
-	while (n >= names.length) {
-	    int position = n - names.length;
-	    n = (int) Math.floor(position / 2);
+	int counter = 1;
+	int queueLength = (counter * 2) * names.length + names.length;
+
+	while (true) {
+	    if (n <= queueLength) {
+		int initialPosition = queueLength - (counter * 2) * names.length;
+		initialPosition = n - initialPosition;
+
+		int group = 1;
+		while (group <= names.length) {
+		    if (initialPosition <= group * (counter * 2))
+			return names[group - 1];
+		    group++;
+		}
+	    }
+	    counter = counter * 2;
+	    queueLength = (counter * 2) * names.length + queueLength;
 	}
-	return names[n];
     }
 
 }

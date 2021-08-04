@@ -7,8 +7,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import Seasson1.SpinWords;
-
 public class SpinWordsTest {
     @Test
     public void test() {
