@@ -20,10 +20,14 @@ public class Line {
 	int queueLength = (counter * 2) * names.length + names.length;
 
 	while (true) {
+	    // Al encontrar que la lista simulada es mayor que 'n' se realiza las
+	    // operaciones para encontrar el nombre dentro de la lista
 	    if (n <= queueLength) {
 		int initialPosition = queueLength - (counter * 2) * names.length;
 		initialPosition = n - initialPosition;
 
+		// Se itera por los 'grupos' para encontrar el nombre donde cada grupo tiene
+		// (counter * 2) miembros
 		int group = 1;
 		while (group <= names.length) {
 		    if (initialPosition <= group * (counter * 2))
@@ -31,6 +35,7 @@ public class Line {
 		    group++;
 		}
 	    }
+	    // Se simula el aumento de la lista dubplicando los valores en cada iteracion
 	    counter = counter * 2;
 	    queueLength = (counter * 2) * names.length + queueLength;
 	}
