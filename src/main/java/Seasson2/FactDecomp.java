@@ -1,5 +1,6 @@
 package Seasson2;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,17 +14,24 @@ public class FactDecomp {
 
 	List<Integer> primeList = primeNumbersTill(n);
 	Hashtable<Integer, Integer> result = new Hashtable<>();
-	int numberToDecompose = n;
 
 	// Hacemos descomposicion de un numero
+	for (int numberToDecompose = n; numberToDecompose > 1; numberToDecompose--) {
+	    decomposeNumberInDictionary(primeList, numberToDecompose, result);
+	}
+	return formatResult(result, primeList);
+    }
+
+    public static void decomposeNumberInDictionary(List<Integer> primeList, int numberToDecompose,
+	    Dictionary<Integer, Integer> result) {
 	while (true) {
 	    for (Integer prime : primeList) {
 		if (numberToDecompose % prime == 0) {
-		    addToHash(result, prime);
+		    addToDictionary(result, prime);
 		    numberToDecompose = numberToDecompose / prime;
 		    if (isPrime(numberToDecompose)) {
-			addToHash(result, numberToDecompose);
-			return "";
+			addToDictionary(result, numberToDecompose);
+			return;
 		    }
 		    break;
 		}
@@ -39,19 +47,27 @@ public class FactDecomp {
 	return IntStream.rangeClosed(2, (int) (Math.sqrt(number))).allMatch(n -> number % n != 0);
     }
 
-    private static void addToHash(Hashtable<Integer, Integer> r, int n) {
-	if (r.get(n) == null) {
+    private static void addToDictionary(Dictionary<Integer, Integer> r, int n) {
+	if (r.get(n) == null)
 	    r.put(n, 1);
-	} else {
+	else
 	    r.put(n, r.get(n) + 1);
-	}
-
-	// r.put(n, (r.get(n) == null) ? r.put(n, 1) : r.put(n, r.get(n) + 1));
     }
 
-    private static String formatResult(Hashtable<Integer, Integer> result) {
+    private static String formatResult(Hashtable<Integer, Integer> result, List<Integer> primeList) {
 	StringBuilder format = new StringBuilder();
 
-	return "";
+	for (Integer prime : primeList) {
+	    if (result.containsKey(prime)) {
+		format.append(prime.toString());
+		if (result.get(prime) > 1) {
+		    format.append("^");
+		    format.append(result.get(prime).toString());
+		}
+		format.append(" * ");
+	    }
+	}
+
+	return format.substring(0, format.length() - 3);
     }
 }
